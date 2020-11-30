@@ -15,8 +15,6 @@ class Teacher():
         self.name = name
         self.una_students = []
 
-    #will definitely be worth multiple trials here to see the most efficient location for this step in the program
-    #can I keep smtp open until all emails sent, or should I send one, close, and then log back in?
     def send_emails(self):
         '''
         smtpObj = smtplib.SMTP('smtp.office365.com', 587)
