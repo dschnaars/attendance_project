@@ -4,6 +4,8 @@ sacs_address = "@sacs.k12.in.us"
 username = input("Username: ").strip().lower() + sacs_address
 password = getpass.getpass("Password: ").strip()
 
+tic = time.time()
+
 teacher_objects = []
 
 #class creating instances of teachers with attributes
@@ -52,7 +54,6 @@ with open('Attendance.csv', 'r') as attendance:
             if line[0] == teacher.name:
                 teacher.una_students.append((line[1], line[2]))
 
-tic = time.time()
 smtpObj = smtplib.SMTP('smtp.office365.com', 587)
 smtpObj.ehlo()
 smtpObj.starttls()
@@ -64,6 +65,7 @@ for teacher in teacher_objects:
         teacher.send_emails()
 
 smtpObj.quit()
-toc = time.time()
 
-print(round(toc-tic, 4))
+toc = time.time() #end time for program execution
+
+print(round(toc-tic, 4)) #print the time taken to complete sending all emails, rounded to 4 decimals
