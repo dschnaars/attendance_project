@@ -35,6 +35,7 @@ with open('teachers.csv', 'r') as teachers:
 missed_students = []
 with open('Book3.csv', 'r') as attendance:
     una_list = csv.reader(attendance)
+
     for line in una_list:
         missed = True #sets a variable that, if true at the end of the loop, will append the student in question to a list that gets reported at the end
         try:
