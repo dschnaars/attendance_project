@@ -33,7 +33,7 @@ with open('teachers.csv', 'r') as teachers:
         teacher_objects.append(teacher[1])
 
 missed_students = []
-with open('Book3.csv', 'r') as attendance:
+with open('sample_data/Book1.csv', 'r') as attendance:
     una_list = csv.reader(attendance)
 
     for line in una_list:
@@ -65,9 +65,11 @@ try: #try entering a correct username and password; will loop until the user cho
             #teacher.send_emails()
 
     smtpObj.quit()
+
     for student in missed_students:
         print("No teacher email on file for {}.".format(student))
-    print("\nBe sure to follow up with this teacher or these teachers individually.")
+    if missed_students != []:
+        print("\nBe sure to follow up with this teacher or these teachers individually.")
 
     toc = time.time() #end time for program execution
 
