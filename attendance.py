@@ -45,7 +45,7 @@ with open('Attendance.csv', 'r') as attendance:
                 teacher.una_students.append((line[1], line[2]))
                 missed = False
         if missed:
-            missed_students.append((line[1], line[2]))
+            missed_students.append((line[0], line[1], line[2]))
 
 smtpObj = smtplib.SMTP('smtp.office365.com', 587)
 smtpObj.ehlo()
