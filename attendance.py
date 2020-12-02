@@ -34,14 +34,18 @@ with open('teachers.csv', 'r') as teachers:
         teacher[1] = Teacher(teacher[1], teacher[0])
         teacher_objects.append(teacher[1])
 
+missed_students = []
 with open('Attendance.csv', 'r') as attendance:
     una_list = csv.reader(attendance)
 
     for line in una_list:
-        #TODO: add a check in here that will return a message if the teacher in question is not found in the list of teacher objects
+        missed = True #sets a variable that, if true at the end of the loop, will append the student in question to a list that gets reported at the end
         for teacher in teacher_objects:
             if line[0] == teacher.name:
                 teacher.una_students.append((line[1], line[2]))
+                missed = False
+        if missed:
+            missed_students.append((line[1], line[2]))
 
 smtpObj = smtplib.SMTP('smtp.office365.com', 587)
 smtpObj.ehlo()
@@ -59,6 +63,8 @@ try: #try entering a correct username and password; will loop until the user cho
             teacher.send_emails()
 
     smtpObj.quit()
+    for student in missed_students:
+        print("No teacher email on file for {}".format(student))
 
     toc = time.time() #end time for program execution
 
