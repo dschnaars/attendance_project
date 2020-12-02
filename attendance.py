@@ -22,8 +22,6 @@ Teachers,\n\nPlease verify that the following students were absent today:"""
         message += '\n\nThanks,\n\nMarcy Kaopuiki, NGAP Attendance Clerk'
         smtpObj.sendmail(username, self.email, message)
 
-        #smtpObj.quit()
-
 teacher_objects = []
 
 #iterating through the teacher email database and creating class instances of each teacher
@@ -35,7 +33,7 @@ with open('teachers.csv', 'r') as teachers:
         teacher_objects.append(teacher[1])
 
 missed_students = []
-with open('Attendance.csv', 'r') as attendance:
+with open('Book1.csv', 'r') as attendance:
     una_list = csv.reader(attendance)
 
     for line in una_list:
@@ -60,7 +58,8 @@ try: #try entering a correct username and password; will loop until the user cho
 
     for teacher in teacher_objects:
         if teacher.una_students != []:
-            teacher.send_emails()
+            pass
+            #teacher.send_emails()
 
     smtpObj.quit()
     for student in missed_students:
