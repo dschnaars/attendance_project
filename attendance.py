@@ -1,12 +1,6 @@
 import csv, smtplib, getpass, time
 
 sacs_address = "@sacs.k12.in.us"
-username = input("Username: ").strip().lower() + sacs_address
-password = getpass.getpass("Password: ").strip()
-
-tic = time.time()
-
-teacher_objects = []
 
 #class creating instances of teachers with attributes
 class Teacher():
@@ -18,24 +12,19 @@ class Teacher():
         self.una_students = []
 
     def send_emails(self):
-        '''
-        smtpObj = smtplib.SMTP('smtp.office365.com', 587)
-        smtpObj.ehlo()
-        smtpObj.starttls()
-
-        smtpObj.login(username, password)
-        '''
         message = """Subject: UNA Students
 
 Teachers,\n\nPlease verify that the following students were absent today:"""
 
         for name in self.una_students:
-            message += '\n' + name[0] + name[1]
+            message += '\n' + name[0] + ', ' + name[1]
 
         message += '\n\nThanks,\n\nMarcy Kaopuiki, NGAP Attendance Clerk'
-        smtpObj.sendmail(username, 'dschnaars@sacs.k12.in.us', message)
+        smtpObj.sendmail(username, self.email, message)
 
         #smtpObj.quit()
+
+teacher_objects = []
 
 #iterating through the teacher email database and creating class instances of each teacher
 with open('teachers.csv', 'r') as teachers:
@@ -58,14 +47,23 @@ smtpObj = smtplib.SMTP('smtp.office365.com', 587)
 smtpObj.ehlo()
 smtpObj.starttls()
 
-smtpObj.login(username, password)
+try: #try entering a correct username and password; will loop until the user chooses to quit or is able to authenticate
+    username = input("Username: ").strip().lower() + sacs_address
+    password = getpass.getpass("Password: ").strip()
+    tic = time.time()
 
-for teacher in teacher_objects:
-    if teacher.una_students != []:
-        teacher.send_emails()
+    smtpObj.login(username, password)
 
-smtpObj.quit()
+    for teacher in teacher_objects:
+        if teacher.una_students != []:
+            teacher.send_emails()
 
-toc = time.time() #end time for program execution
+    smtpObj.quit()
 
-print(round(toc-tic, 4)) #print the time taken to complete sending all emails, rounded to 4 decimals
+    toc = time.time() #end time for program execution
+
+    print(round(toc-tic, 4)) #print the time taken to complete sending all emails, rounded to 4 decimals
+
+except smtplib.SMTPAuthenticationError:
+    print("Looks like your username or password was incorrect.")
+    smtpObj.quit()
