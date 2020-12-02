@@ -19,10 +19,8 @@ Teachers,\n\nPlease verify that the following students were absent today:"""
         for name in self.una_students:
             message += '\n' + name[0] + ', ' + name[1]
 
-        message += '\n\nThanks,\n\nMarcy Kaopuiki, NGAP Attendance Clerk'
+        message += '\n\nThanks,\n\nMarcy Kaopuiki, Attendance/Discipline Secretary\nHomestead High School NGAP'
         smtpObj.sendmail(username, self.email, message)
-
-        #smtpObj.quit()
 
 teacher_objects = []
 
@@ -35,17 +33,19 @@ with open('teachers.csv', 'r') as teachers:
         teacher_objects.append(teacher[1])
 
 missed_students = []
-with open('Attendance.csv', 'r') as attendance:
+with open('Book3.csv', 'r') as attendance:
     una_list = csv.reader(attendance)
-
     for line in una_list:
         missed = True #sets a variable that, if true at the end of the loop, will append the student in question to a list that gets reported at the end
-        for teacher in teacher_objects:
-            if line[0] == teacher.name:
-                teacher.una_students.append((line[1], line[2]))
-                missed = False
-        if missed:
-            missed_students.append((line[0], line[1], line[2]))
+        try:
+            for teacher in teacher_objects:
+                if line[0] == teacher.name:
+                    teacher.una_students.append((line[1], line[2]))
+                    missed = False
+            if missed:
+                missed_students.append((line[0], line[1], line[2]))
+        except IndexError:
+            print("Unable to send message to: {}".format(line))
 
 smtpObj = smtplib.SMTP('smtp.office365.com', 587)
 smtpObj.ehlo()
@@ -60,15 +60,17 @@ try: #try entering a correct username and password; will loop until the user cho
 
     for teacher in teacher_objects:
         if teacher.una_students != []:
-            teacher.send_emails()
+            pass
+            #teacher.send_emails()
 
     smtpObj.quit()
     for student in missed_students:
-        print("No teacher email on file for {}".format(student))
+        print("No teacher email on file for {}.".format(student))
+    print("\nBe sure to follow up with this teacher or these teachers individually.")
 
     toc = time.time() #end time for program execution
 
-    print(round(toc-tic, 4)) #print the time taken to complete sending all emails, rounded to 4 decimals
+    print("Program execution time:", round(toc-tic, 4), "seconds") #print the time taken to complete sending all emails, rounded to 4 decimals
 
 except smtplib.SMTPAuthenticationError:
     print("Looks like your username or password was incorrect.")
