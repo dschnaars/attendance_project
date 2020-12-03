@@ -33,10 +33,12 @@ with open('teachers.csv', 'r') as teachers:
         teacher_objects.append(teacher[1])
 
 missed_students = []
-with open('Book3.csv', 'r') as attendance:
+with open('sample_data/Book3.csv', 'r') as attendance:
     una_list = csv.reader(attendance)
 
+    line_number = 0
     for line in una_list:
+        line_number += 1
         missed = True #sets a variable that, if true at the end of the loop, will append the student in question to a list that gets reported at the end
         try:
             for teacher in teacher_objects:
@@ -44,9 +46,9 @@ with open('Book3.csv', 'r') as attendance:
                     teacher.una_students.append((line[1], line[2]))
                     missed = False
             if missed:
-                missed_students.append((line[0], line[1], line[2]))
+                missed_students.append((line[0], line[1], line[2], line_number))
         except IndexError:
-            print("Unable to send message to: {}".format(line))
+            print("Line {}. Unable to send message to: {}".format(line_number, line))
 
 smtpObj = smtplib.SMTP('smtp.office365.com', 587)
 smtpObj.ehlo()
@@ -65,9 +67,11 @@ try: #try entering a correct username and password; will loop until the user cho
             #teacher.send_emails()
 
     smtpObj.quit()
+
     for student in missed_students:
-        print("No teacher email on file for {}.".format(student))
-    print("\nBe sure to follow up with this teacher or these teachers individually.")
+        print("Line {}. No teacher email on file for {} {} {}.".format(student[3], student[0], student[1], student[2]))
+    if missed_students != []:
+        print("\nBe sure to follow up with this teacher or these teachers individually.")
 
     toc = time.time() #end time for program execution
 
