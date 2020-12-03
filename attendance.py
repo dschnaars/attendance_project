@@ -14,7 +14,7 @@ class Teacher():
     def send_emails(self):
         message = """Subject: UNA Students
 
-Teachers,\n\nPlease verify that the following students were absent today:"""
+Teachers,\n\nPlease verify that the following students were absent on {}:""".format(date_today)
 
         for name in self.una_students:
             message += '\n' + name[0] + ', ' + name[1]
@@ -33,7 +33,11 @@ with open('teachers.csv', 'r') as teachers:
         teacher_objects.append(teacher[1])
 
 missed_students = []
-with open('sample_data/Book3.csv', 'r') as attendance:
+filename = input("Enter the name of the file to analyze.\nLeave out the extension (.csv)\n").strip()
+filename += '.csv'
+date_today = input("Enter the date for attendance data uploaded: ".strip())
+
+with open(filename, 'r') as attendance:
     una_list = csv.reader(attendance)
 
     line_number = 0
@@ -57,6 +61,7 @@ smtpObj.starttls()
 try: #try entering a correct username and password; will loop until the user chooses to quit or is able to authenticate
     username = input("Username: ").strip().lower() + sacs_address
     password = getpass.getpass("Password: ").strip()
+
     tic = time.time()
 
     smtpObj.login(username, password)
@@ -64,7 +69,7 @@ try: #try entering a correct username and password; will loop until the user cho
     for teacher in teacher_objects:
         if teacher.una_students != []:
             pass
-            #teacher.send_emails()
+            teacher.send_emails()
 
     smtpObj.quit()
 
