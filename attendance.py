@@ -71,8 +71,8 @@ while authenticated:
         count = 1 #variable for providing visual feedback that the program is running
         for teacher in teacher_objects:
             if teacher.una_students != []:
-                #pass
-                teacher.send_emails()
+                pass
+                #teacher.send_emails()
             if count % 3 == 0:
                 print("Sending emails...") 
             count += 1
