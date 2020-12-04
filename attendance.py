@@ -67,7 +67,7 @@ while authenticated:
         tic = time.time()
     
         smtpObj.login(username, password)
-    
+
         count = 1 #variable for providing visual feedback that the program is running
         for teacher in teacher_objects:
             if teacher.una_students != []:
