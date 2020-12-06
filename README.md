@@ -1,2 +1,5 @@
 # attendance_project
-Attendance project started for NGAP attendance clerk to help automate emails.
+Attendance project started for HHS attendance clerks to help automate emails to teachers concerning UNA students.
+
+Instructions for use:
+1. 
