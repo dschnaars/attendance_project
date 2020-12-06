@@ -15,10 +15,16 @@ class Teacher():
 
 Teachers,\n\nPlease verify that the following students were absent on {}:""".format(date_today)
 
-        for name in self.una_students:
-            message += '\n' + name[0] + ', ' + name[1]
+        for student in self.una_students:
+            message += '\n' + student[0] + ', ' + student[1] + ', period ' + student[2]
 
-        message += '\n\nThanks,\n\nMarcy Kaopuiki, Attendance/Discipline Secretary\nHomestead High School NGAP'
+        if username == 'mkaopuiki':
+            message += '\n\nThanks,\n\nMarcy Kaopuiki, Attendance/Discipline Secretary\nHomestead High School NGAP'
+        elif username == 'randerson':
+            message += '\n\nThanks,\n\nRita Anderson, Attendance Secretary Grades 10-12\nHomestead High School NGAP'
+        else:
+            message += '\n\nTest from Dan Schnaars'
+
         smtpObj.sendmail(username, self.email, message)
         #can raise an error if email address is invalid
         #smtplib.SMTPRecipientsRefused: {'@sacs.k12.in.us': (501, b'5.1.3 Invalid address')}

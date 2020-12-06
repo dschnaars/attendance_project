@@ -43,10 +43,3 @@ def analyze_csv(filename):
             count += 1
 
     return error, [freshmen, sophomores, juniors, seniors]
-        
-#tic = time.time() #begin time for program execution
-
-#analyze_csv('sample_data/schnaars.csv')
-
-#toc = time.time() #end time for program execution
-#print("Program execution time:", round(toc-tic, 4), "seconds.") #print the time taken to complete sending all emails, rounded to 4 decimals
