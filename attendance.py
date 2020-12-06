@@ -1,6 +1,15 @@
-import csv, smtplib, getpass, time
+import csv, smtplib, getpass, time, sys
+import analyze
 
 sacs_address = "@sacs.k12.in.us"
+
+filename = input("Enter the name of the file to analyze.\nLeave out the extension (.csv)\nFilename: ").strip()
+filename += '.csv'
+errors, grades_present = analyze.analyze_csv(filename)
+
+if errors:
+    print("Fix errors is spreadsheet before continuing.")
+    sys.exit()
 
 #class creating instances of teachers with attributes
 class Teacher():
@@ -36,8 +45,6 @@ with open('teachers.csv', 'r') as teachers:
         teacher_objects.append(teacher[1])
 
 missed_students = []
-filename = input("Enter the name of the file to analyze.\nLeave out the extension (.csv)\nFilename: ").strip()
-filename += '.csv'
 date_today = input("Enter the date for attendance data uploaded:\nDate: ").strip()
 
 with open(filename, 'r') as attendance:
