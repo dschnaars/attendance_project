@@ -1,4 +1,4 @@
-
+import smtplib
 sacs_address = "@sacs.k12.in.us"
 
 #class creating instances of teachers with attributes
@@ -10,7 +10,7 @@ class Teacher():
         self.name = name
         self.una_students = []
 
-    def send_emails(self):
+    def send_emails(self, smtpObj, username, date_today):
         message = """Subject: UNA Students
 
 Teachers,\n\nPlease verify that the following students were absent on {}:""".format(date_today)

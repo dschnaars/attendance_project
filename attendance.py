@@ -1,5 +1,5 @@
 import csv, smtplib, getpass, time, sys
-import analyze, create
+import analyze, teacher_class, update
 
 sacs_address = "@sacs.k12.in.us"
 
@@ -11,7 +11,7 @@ if errors:
     print("Fix errors is spreadsheet before continuing.")
     sys.exit()
 
-#TODO: add a print statement listing the grade levels present and give the user the option to quit here if incorrect grade levels have been included
+print('This spreadsheet contains the following grade levels: {}'.format(grades_present))
 
 teacher_objects = []
 
@@ -20,35 +20,16 @@ with open('teachers.csv', 'r') as teachers:
     teacher_list = csv.reader(teachers)
 
     for teacher in teacher_list:
-        teacher[1] = create.Teacher(teacher[1], teacher[0])
+        teacher[1] = teacher_class.Teacher(teacher[1], teacher[0])
         teacher_objects.append(teacher[1])
 
-missed_students = []
-date_today = input("Enter the date for attendance data uploaded:\nDate: ").strip()
-
-with open(filename, 'r') as attendance:
-    una_list = csv.reader(attendance)
-
-    line_number = 0
-    for line in una_list:
-        #TODO: add a checker to see if there are empty fields in CSV file, indicating there is an error and should NOT proceed with the remainder of the program
-        #TODO: check line for presence of grade 9, 10, 11, or 12 and report grades present before sending emails to wrong grade-level teachers
-        line_number += 1
-        missed = True #sets a variable that, if true at the end of the loop, will append the student in question to a list that gets reported at the end
-        try:
-            for teacher in teacher_objects:
-                if line[0] == teacher.name:
-                    teacher.una_students.append((line[1], line[2]))
-                    missed = False
-            if missed:
-                missed_students.append((line[0], line[1], line[2], line_number))
-        except IndexError:
-            print("Line {}. Unable to send message to: {}".format(line_number, line))
+missed_students, teacher_objects = update.update_teacher_una(filename, teacher_objects)
 
 smtpObj = smtplib.SMTP('smtp.office365.com', 587)
 smtpObj.ehlo()
 smtpObj.starttls()
 
+date_today = input("Enter the date for attendance data uploaded:\nDate: ").strip()
 authenticated = True
 while authenticated:
     try: #try entering a correct username and password; will loop until the user chooses to quit or is able to authenticate
@@ -62,10 +43,11 @@ while authenticated:
         count = 1 #variable for providing visual feedback that the program is running
         for teacher in teacher_objects:
             if teacher.una_students != []:
-                pass
-                #teacher.send_emails()
+                #pass
+                teacher.send_emails(smtpObj, username, date_today)
             if count % 3 == 0:
-                print("Sending emails...") 
+                pass
+                #print("Sending emails...") 
             count += 1
     
         smtpObj.quit()
