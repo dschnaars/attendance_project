@@ -21,6 +21,9 @@ Teachers,\n\nPlease verify that the following students were absent on {}:""".for
 
         message += '\n\nThanks,\n\nMarcy Kaopuiki, Attendance/Discipline Secretary\nHomestead High School NGAP'
         smtpObj.sendmail(username, self.email, message)
+        #can raise an error if email address is invalid
+        #smtplib.SMTPRecipientsRefused: {'@sacs.k12.in.us': (501, b'5.1.3 Invalid address')}
+        #TODO: add a try/except to handle this possible error here
 
 teacher_objects = []
 
@@ -42,6 +45,8 @@ with open(filename, 'r') as attendance:
 
     line_number = 0
     for line in una_list:
+        #TODO: add a checker to see if there are empty fields in CSV file, indicating there is an error and should NOT proceed with the remainder of the program
+        #TODO: check line for presence of grade 9, 10, 11, or 12 and report grades present before sending emails to wrong grade-level teachers
         line_number += 1
         missed = True #sets a variable that, if true at the end of the loop, will append the student in question to a list that gets reported at the end
         try:
