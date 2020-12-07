@@ -14,18 +14,22 @@ class Teacher():
         message = """Subject: UNA Students
 
 Teachers,\n\nPlease verify that the following students were absent on {}:""".format(date_today)
-
-        for student in self.una_students:
-            message += '\n' + student[0] + ', ' + student[1] + ', period ' + student[2]
-
-        if username == 'mkaopuiki':
-            message += '\n\nThanks,\n\nMarcy Kaopuiki, Attendance/Discipline Secretary\nHomestead High School NGAP'
-        elif username == 'randerson':
-            message += '\n\nThanks,\n\nRita Anderson, Attendance Secretary Grades 10-12\nHomestead High School NGAP'
-        else:
-            message += '\n\nTest from Dan Schnaars'
-
-        smtpObj.sendmail(username, self.email, message)
-        #can raise an error if email address is invalid
-        #smtplib.SMTPRecipientsRefused: {'@sacs.k12.in.us': (501, b'5.1.3 Invalid address')}
-        #TODO: add a try/except to handle this possible error here
+        try:
+            for student in self.una_students:
+                message += '\n' + student[0] + ', ' + student[1] + ', period ' + student[2]
+                message += '\n\nThanks,\n\nMarcy Kaopuiki, Attendance/Discipline Secretary\nHomestead High School NGAP'
+    
+            #TODO: this structure could be placed at the beginning of the function in order to avoid running each time through the for loop
+            if username == 'mkaopuiki':
+                print(username, 'if')
+                #message += '\n\nThanks,\n\nMarcy Kaopuiki, Attendance/Discipline Secretary\nHomestead High School NGAP'
+            elif username == 'randersen':
+                print(username, 'elif')
+                #message += '\n\nThanks,\n\nRita Andersen, Attendance Secretary Grades 10-12\next. 2280\nHomestead High School NGAP'
+            else:
+                print(username, 'else')
+                #message += '\n\nTest from Dan Schnaars'
+    
+            smtpObj.sendmail(username, self.email, message)
+        except smtplib.SMTPRecipientRefused:
+            print(self.email)

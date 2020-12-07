@@ -1,4 +1,4 @@
-import smtplib, getpass, time, progress.bar
+import smtplib, getpass, time
 
 def send_emails(missed_students, teacher_objects, sacs_address):
     """Function that generates emails to each teacher who has students listed in their una attribute."""
@@ -17,15 +17,19 @@ def send_emails(missed_students, teacher_objects, sacs_address):
         
             smtpObj.login(username, password)
 
-            bar = progress.bar.ChargingBar('Sending Emails', max = len(teacher_objects))
+            #bar = progress.bar.ChargingBar('Sending Emails', max = len(teacher_objects))
 
+            count = 0
             for teacher in teacher_objects:
                 if teacher.una_students != []:
                     #pass
                     teacher.send_emails(smtpObj, username, date_today)
-                bar.next()
+                if count % 5 == 0:
+                    print("Sending...")
+                count += 1
+                #bar.next()
 
-            bar.finish()
+            #bar.finish()
         
             smtpObj.quit()
         

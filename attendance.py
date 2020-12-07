@@ -31,27 +31,4 @@ send.send_emails(missed_students, teacher_objects, sacs_address)
 
 toc = time.time() #end time for program execution
 
-        count = 1 #variable for providing visual feedback that the program is running
-        for teacher in teacher_objects:
-            if teacher.una_students != []:
-                pass
-                #teacher.send_emails()
-            if count % 3 == 0:
-                print("Sending emails...") 
-            count += 1
-    
-        smtpObj.quit()
-    
-        for student in missed_students:
-            print("Line {}. No teacher email on file for {} {} {}.".format(student[3], student[0], student[1], student[2]))
-        if missed_students != []:
-            print("\nBe sure to follow up with this teacher or these teachers individually.")
-    
-        toc = time.time() #end time for program execution
-    
-        print("Program execution time:", round(toc-tic, 4), "seconds") #print the time taken to complete sending all emails, rounded to 4 decimals
-        authenticated = False
-    
-    except smtplib.SMTPAuthenticationError:
-        print("Looks like your username or password was incorrect.")
-        smtpObj.quit()
+print("Program execution time:", round(toc-tic, 4), "seconds") #print the time taken to complete sending all emails, rounded to 4 decimals
