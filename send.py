@@ -3,6 +3,7 @@ import smtplib, getpass, time
 def send_emails(missed_students, teacher_objects, sacs_address):
     """Function that generates emails to each teacher who has students listed in their una attribute."""
 
+    #TODO: need to include these lines at the end of the try/except so that a failed login doesn't couse restart of the program
     smtpObj = smtplib.SMTP('smtp.office365.com', 587)
     smtpObj.ehlo()
     smtpObj.starttls()

@@ -1,4 +1,4 @@
-import csv, time
+import csv, time, smtplib
 
 def analyze_csv(filename):
     error = False #bool used to detect certain spreadsheet errors such as missing data or blank lines
@@ -30,6 +30,7 @@ def analyze_csv(filename):
             if freshmen and sophomores and juniors and seniors:
                 break
 
+    #TODO: investigate a way to combine this analysis of the spreadsheet with the preceeding one
     with open (filename, 'r') as attendance:
         check_list = csv.reader(attendance)
 
@@ -43,3 +44,19 @@ def analyze_csv(filename):
             count += 1
 
     return error, [freshmen, sophomores, juniors, seniors]
+
+def analyze_emails():
+    """Function that will quickly run through teacher email .csv file and check
+    that all email addresses are valid. Cannot use the smtpObj.verify() 
+    function because it (likely) is disabled by our server. This simple checks 
+    that the field in the teachers.csv file does not contain any obvious 
+    invalidities."""
+    with open('teachers.csv', 'r') as teachers:
+        teacher_list = csv.reader(teachers)
+
+        for teacher in teacher_list:
+            if teacher[1] == '':
+                print('Invalid username/email for', teacher[0], "\nFix error in teachers.csv before continuing.")
+                return False
+            #TODO: write a regex that wil check a username to confirm that it only contains letters and numbers
+        return True
