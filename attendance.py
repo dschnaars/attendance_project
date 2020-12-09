@@ -1,7 +1,6 @@
 import csv, smtplib, time, sys
 import analyze, teacher_class, update, send
 
-tic = time.time()
 
 sacs_address = "@sacs.k12.in.us"
 
@@ -33,7 +32,3 @@ with open('teachers.csv', 'r') as teachers:
 missed_students, teacher_objects = update.update_teacher_una(filename, teacher_objects)
 
 send.send_emails(missed_students, teacher_objects, sacs_address)
-
-toc = time.time() #end time for program execution
-
-print("Program execution time:", round(toc-tic, 4), "seconds") #print the time taken to complete sending all emails, rounded to 4 decimals
