@@ -1,0 +1,16 @@
+[[package]]
+category = "main"
+description = "Easy to use progress bars"
+name = "progress"
+optional = false
+python-versions = "*"
+version = "1.5"
+
+[metadata]
+content-hash = "660a01637d133d8c8642856af35803f16ba5fa5e44b8f16c61e288db4932e5cb"
+python-versions = "^3.8"
+
+[metadata.files]
+progress = [
+    {file = "progress-1.5.tar.gz", hash = "sha256:69ecedd1d1bbe71bf6313d88d1e6c4d2957b7f1d4f71312c211257f7dae64372"},
+]

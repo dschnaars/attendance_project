@@ -1,7 +1,6 @@
 import csv, smtplib, time, sys
 import analyze, teacher_class, update, send
 
-tic = time.time()
 
 sacs_address = "@sacs.k12.in.us"
 
@@ -9,8 +8,13 @@ filename = input("Enter the name of the file to analyze.\nLeave out the extensio
 filename += '.csv'
 errors, grades_present = analyze.analyze_csv(filename)
 
+#Error check of the intended spreadsheed for errors such as missing fields or blank lines
 if errors:
     print("Fix errors is spreadsheet before continuing.")
+    sys.exit()
+
+#Error check of teachers.csv for any teacher missing an email address
+if not analyze.analyze_emails():
     sys.exit()
 
 print('This spreadsheet contains the following grade levels: {}'.format(grades_present))
@@ -28,7 +32,3 @@ with open('teachers.csv', 'r') as teachers:
 missed_students, teacher_objects = update.update_teacher_una(filename, teacher_objects)
 
 send.send_emails(missed_students, teacher_objects, sacs_address)
-
-toc = time.time() #end time for program execution
-
-print("Program execution time:", round(toc-tic, 4), "seconds") #print the time taken to complete sending all emails, rounded to 4 decimals
