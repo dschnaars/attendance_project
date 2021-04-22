@@ -17,14 +17,15 @@ Teachers,\n\nPlease verify that the following students were absent on {}:""".for
         try:
             for student in self.una_students:
                 message += '\t\n' + student[0] + ', ' + student[1] + ', period ' + student[2]
-            
             if username == 'mkaopuiki@sacs.k12.in.us':
+            #if username == 'dschnaars@sacs.k12.in.us': 
                 message += '\n\nThanks,\n\nMarcy Kaopuiki, Attendance/Discipline Secretary\t\nHomestead High School NGAP'
             elif username == 'randersen@sacs.k12.in.us':
                 message += '\n\nThanks,\n\nRita Andersen, Attendance Secretary Grades 10-12\t\next. 2280\t\nHomestead High School NGAP'
             else:
-                message += '\n\nThanks,\n\nHHS Attendance'
+                message += '\n\n**THIS IS JUST A TEST**'
 
+            #smtpObj.sendmail(username, 'dschnaars@sacs.k12.in.us', message)
             smtpObj.sendmail(username, self.email, message)
 
         except smtplib.SMTPRecipientsRefused:

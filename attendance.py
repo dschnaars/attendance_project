@@ -7,8 +7,13 @@ filename = input("Enter the name of the file to analyze.\nLeave out the extensio
 filename += '.csv'
 errors, grades_present = analyze.analyze_csv(filename)
 
+#Error check of the intended spreadsheed for errors such as missing fields or blank lines
 if errors:
     print("Fix errors is spreadsheet before continuing.")
+    sys.exit()
+
+#Error check of teachers.csv for any teacher missing an email address
+if not analyze.analyze_emails():
     sys.exit()
 
 print('This spreadsheet contains the following grade levels: {}'.format(grades_present))
