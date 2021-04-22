@@ -20,16 +20,16 @@ def send_emails(missed_students, teacher_objects, sacs_address):
 
             bar = progress.bar.ChargingBar('Sending Emails', max = len(teacher_objects))
 
-            count = 0
+            #count = 1
             for teacher in teacher_objects:
                 if teacher.una_students != []:
                     #pass
                     teacher.send_emails(smtpObj, username, date_today)
-                    bar.next()
-                if count % 10 == 0:
-                    break
+                bar.next()
+                #if count % 9 == 0:
+                    #break
                     #print("Sending...")
-                count += 1
+                #count += 1
 
             bar.finish()
         
