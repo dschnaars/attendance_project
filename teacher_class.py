@@ -16,20 +16,16 @@ class Teacher():
 Teachers,\n\nPlease verify that the following students were absent on {}:""".format(date_today)
         try:
             for student in self.una_students:
-                message += '\n' + student[0] + ', ' + student[1] + ', period ' + student[2]
-                message += '\n\nThanks,\n\nMarcy Kaopuiki, Attendance/Discipline Secretary\nHomestead High School NGAP'
-    
-            #TODO: this structure could be placed at the beginning of the function in order to avoid running each time through the for loop
-            if username == 'mkaopuiki':
-                print(username, 'if')
-                #message += '\n\nThanks,\n\nMarcy Kaopuiki, Attendance/Discipline Secretary\nHomestead High School NGAP'
-            elif username == 'randersen':
-                print(username, 'elif')
-                #message += '\n\nThanks,\n\nRita Andersen, Attendance Secretary Grades 10-12\next. 2280\nHomestead High School NGAP'
+                message += '\t\n' + student[0] + ', ' + student[1] + ', period ' + student[2]
+            
+            if username == 'mkaopuiki@sacs.k12.in.us':
+                message += '\n\nThanks,\n\nMarcy Kaopuiki, Attendance/Discipline Secretary\t\nHomestead High School NGAP'
+            elif username == 'randersen@sacs.k12.in.us':
+                message += '\n\nThanks,\n\nRita Andersen, Attendance Secretary Grades 10-12\t\next. 2280\t\nHomestead High School NGAP'
             else:
-                print(username, 'else')
-                #message += '\n\nTest from Dan Schnaars'
-    
+                message += '\n\nThanks,\n\nHHS Attendance'
+
             smtpObj.sendmail(username, self.email, message)
-        except smtplib.SMTPRecipientRefused:
-            print(self.email)
+
+        except smtplib.SMTPRecipientsRefused:
+            print(self.email, username)
