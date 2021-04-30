@@ -22,7 +22,7 @@ Teachers,\n\nPlease verify that the following students were absent on {}:""".for
             #if username == 'dschnaars@sacs.k12.in.us': 
                 message += '\n\nThanks,\n\nMarcy Kaopuiki, Attendance/Discipline Secretary\t\nHomestead High School NGAP'
             elif username == 'randersen@sacs.k12.in.us':
-                message += '\n\nThanks,\n\nRita Andersen, Attendance Secretary Grades 10-12\t\next. 2280\t\nHomestead High School NGAP'
+                message += '\n\nThanks,\n\nRita Andersen, Attendance Secretary Grades 10-12\t\next. 2280\t\nHomestead High School'
             else:
                 message += '\n\n**THIS IS JUST A TEST**'
 
